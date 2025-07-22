@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,10 +25,35 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
+        {/* Header */}
+        <header className="bg-indigo-500 text-white px-6 py-4 shadow-md">
+          <div className="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="/"><h1 className="text-2xl font-bold">Fresh Market</h1></a>
+            {/* Navigation */}
+            <nav className="space-x-4">
+              <Link href="/best-sellers" className="hover:underline">
+                Best Sellers
+              </Link>
+              <Link href="/new-arrivals" className="hover:underline">
+                New Arrivals
+              </Link>
+              <Link href="/inventory" className="hover:underline">
+                Inventory
+              </Link>
+            </nav>
+          </div>
+        </header>
+
+        {/* Main Content */}
+        <main className="flex-grow bg-gray-50 p-6">
+          <div className="max-w-7xl mx-auto">{children}</div>
+        </main>
+
+        {/* Footer */}
+        <footer className="bg-stone-500 text-white text-center py-4">
+          &copy; {new Date().getFullYear()} Fresh Market. All rights reserved.
+        </footer>
       </body>
     </html>
   );
