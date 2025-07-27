@@ -5,6 +5,7 @@ export type Product = {
     price: string | number;
     unit: string;
     description: string;
+    stock: number;
 };
 
 export type BestSellersPage = {

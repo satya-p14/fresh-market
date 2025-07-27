@@ -1,9 +1,10 @@
+import ProductCard from "../components/ProductCard";
 import FormattedCurrency from "../utils/FormattedCurrency";
 import { BestSellersPage, Product } from "../utils/types";
 
 export const dynamic = 'force-dynamic';
 async function getNewArrivals() {
-    const baseUrl = `http://localhost:${process.env.SERVER_PORT}`;
+    const baseUrl = process.env.BASE_URL;
     try {
         const [idsRes, productsRes] = await Promise.all([
             fetch(`${baseUrl}/new-arrivals`, { cache: 'no-store' }),
@@ -47,24 +48,7 @@ const NewArrivalsPage = async () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {newArrivals.map((product: Product) => (
-                    <div
-                        key={product.id}
-                        className="bg-white shadow rounded-2xl p-4 hover:shadow-lg transition"
-                    >
-                        <img
-                            src={product.image}
-                            alt={product.name}
-                            className="w-full h-40 object-cover rounded-xl mb-4"
-                        />
-                        <h3 className="text-xl font-semibold">{product.name}</h3>
-                        <div className="flex items-center justify-between mt-2">
-                            <span className="text-green-700 font-bold mt-2">
-                                Price : <FormattedCurrency amount={Number(product.price)} currencyCode="INR" locale="en-IN" />
-                            </span>
-                            <span className="text-green-700 font-bold mt-2">Unit : {product.unit}</span>
-                        </div>
-                        <p className="text-green-700 font-bold mt-2">Desc : {product.description}</p>
-                    </div>
+                    <ProductCard key={product.id} product={product} />                    
                 ))}
             </div>
         </section>
