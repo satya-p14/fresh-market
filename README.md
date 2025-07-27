@@ -59,3 +59,20 @@ pnpm run db:start
 bun run db:start
 ```
 
+## env details
+
+# create .env at root 
+
+## .env content : 
+PORT=3000
+SERVER_PORT=3001
+BASE_URL=http://localhost:${SERVER_PORT}
+
+# create .env.local at root 
+
+## .env.local content : 
+
+NEXT_PUBLIC_API_URL=http://localhost:3001
+
+
+
