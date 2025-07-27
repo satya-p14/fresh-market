@@ -1,10 +1,9 @@
-import FormattedCurrency from "../utils/FormattedCurrency";
+import ProductCard from "../components/ProductCard";
 import type { BestSellersPage, Product } from "../utils/types";
 
 export const revalidate = 60;
 export async function getBestSellers() {
-    const baseUrl = `http://localhost:${process.env.SERVER_PORT}`;
-
+    const baseUrl = process.env.BASE_URL;
     try {
         const [idsRes, productsRes] = await Promise.all([
             fetch(`${baseUrl}/best-sellers`, { cache: 'no-store' }),
@@ -16,7 +15,7 @@ export async function getBestSellers() {
         }
 
         const ids = await idsRes.json();
-        const products = await productsRes.json();    
+        const products = await productsRes.json();
         return products.filter((product: Product) => ids.some((id: BestSellersPage) => product.id === String(id.productId)));
 
     } catch (error) {
@@ -49,24 +48,7 @@ const BestSellersPage = async () => {
             <h2 className="text-3xl font-bold mb-6">Best Sellers</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {bestSellers.map((product: Product) => (
-                    <div
-                        key={product.id}
-                        className="bg-white shadow rounded-2xl p-4 hover:shadow-lg transition"
-                    >
-                        <img
-                            src={product.image}
-                            alt={product.name}
-                            className="w-full h-40 object-cover rounded-xl mb-4"
-                        />
-                        <h3 className="text-xl font-semibold">{product.name}</h3>
-                        <div className="flex items-center justify-between mt-2">
-                            <span className="text-green-700 font-bold mt-2">
-                                Price : <FormattedCurrency amount={Number(product.price)} currencyCode="INR" locale="en-IN" />
-                            </span>
-                            <span className="text-green-700 font-bold mt-2">Unit : {product.unit}</span>
-                        </div>
-                        <p className="text-green-700 font-bold mt-2">Desc : {product.description}</p>
-                    </div>
+                    <ProductCard key={product.id} product={product} />
                 ))}
             </div>
 

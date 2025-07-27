@@ -2,10 +2,9 @@ import { Product } from "@/app/utils/types";
 import Link from "next/link";
 
 export async function generateStaticParams() {
-    const baseUrl = `http://localhost:${process.env.SERVER_PORT}`;
+    const baseUrl = process.env.BASE_URL;
     const res = await fetch(baseUrl + '/products');
     const products = await res.json();
-    console.log('Available Products:', products);
 
     if (!res.ok || res.status === 404) {
         throw new Error('Failed to fetch data from JSON Server');
@@ -17,7 +16,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: { id: string; }; }) {
-    const baseUrl = `http://localhost:${process.env.SERVER_PORT}`;
+    const baseUrl = process.env.BASE_URL;
     const res = await fetch(baseUrl + `/products/${params.id}`, {
         cache: 'force-cache',
     });
@@ -33,7 +32,7 @@ export async function generateMetadata({ params }: { params: { id: string; }; })
 }
 
 export default async function ProductPage({ params }: { params: { id: string; }; }) {
-    const baseUrl = `http://localhost:${process.env.SERVER_PORT}`;
+    const baseUrl = process.env.BASE_URL;
     const res = await fetch(baseUrl + `/products/${params.id}`, {
         cache: 'force-cache'
     });
@@ -47,7 +46,6 @@ export default async function ProductPage({ params }: { params: { id: string; };
     }
 
     const product = await res.json();
-    console.log('Product Details:', product);
 
     return (
         <section className="max-w-3xl mx-auto p-6">
